@@ -7,3 +7,6 @@ python -m pytest tests/test_preprocess.py -v
 
 # test feat: add EasyOCR wrapper with structured output
 python -m pytest tests/test_ocr.py -v
+
+# test feat: add rule-based image type classifier
+python -m pytest tests/test_classifier.py -v
