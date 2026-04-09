@@ -1,0 +1,18 @@
+{
+  "image_id": "img_013",
+  "expected_type": "whiteboard",
+  "expected_entities": {
+    "owners": [
+      "Dave"
+    ],
+    "project_tags": [
+      "UXRedesign"
+    ]
+  },
+  "expected_group": null,
+  "expected_calendar_hook": null,
+  "expected_failure_flags": [
+    "ocr_uncertain"
+  ],
+  "notes": "Messy handwriting with noise; low OCR confidence expected"
+}

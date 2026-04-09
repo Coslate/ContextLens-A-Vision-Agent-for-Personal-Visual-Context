@@ -1,0 +1,30 @@
+{
+  "image_id": "img_004",
+  "expected_type": "receipt",
+  "expected_entities": {
+    "merchant": "STARBUCKS",
+    "items": [
+      {
+        "name": "Latte",
+        "price": 5.5
+      },
+      {
+        "name": "Muffin",
+        "price": 3.25
+      },
+      {
+        "name": "Iced Tea",
+        "price": 2.75
+      }
+    ],
+    "total": null,
+    "date": null,
+    "currency": "USD"
+  },
+  "expected_group": "receipts_trip",
+  "expected_calendar_hook": null,
+  "expected_failure_flags": [
+    "partial_capture"
+  ],
+  "notes": "Bottom cropped; total and date missing"
+}

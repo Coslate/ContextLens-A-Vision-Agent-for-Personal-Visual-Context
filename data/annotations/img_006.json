@@ -1,0 +1,23 @@
+{
+  "image_id": "img_006",
+  "expected_type": "conversation",
+  "expected_entities": {
+    "participants": [
+      "Alice",
+      "Bob"
+    ],
+    "key_topics": [
+      "meeting",
+      "sync",
+      "conference room"
+    ],
+    "action_items": [
+      "book the conference room",
+      "send her the invite"
+    ]
+  },
+  "expected_group": null,
+  "expected_calendar_hook": true,
+  "expected_failure_flags": [],
+  "notes": "Meeting reference triggers calendar hook"
+}

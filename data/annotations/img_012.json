@@ -1,0 +1,33 @@
+{
+  "image_id": "img_012",
+  "expected_type": "whiteboard",
+  "expected_entities": {
+    "bullets": [
+      "Completed: API design phase",
+      "In progress: testing @Bob",
+      "Blocked: deployment (infra) @Carol",
+      "Fix CI pipeline @Alice",
+      "Update staging config"
+    ],
+    "owners": [
+      "Bob",
+      "Carol",
+      "Alice"
+    ],
+    "tasks": [
+      "Fix CI pipeline",
+      "Update staging config"
+    ],
+    "project_tags": [
+      "ProjectAlpha",
+      "Sprint5"
+    ],
+    "dates": [
+      "Wednesday"
+    ]
+  },
+  "expected_group": "project_alpha",
+  "expected_calendar_hook": null,
+  "expected_failure_flags": [],
+  "notes": "Related to img_011 via shared project tags; should be linked"
+}

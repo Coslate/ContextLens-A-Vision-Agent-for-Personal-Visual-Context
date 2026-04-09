@@ -1,0 +1,22 @@
+{
+  "image_id": "img_010",
+  "expected_type": "document",
+  "expected_entities": {
+    "document_kind": "medication",
+    "structured_fields": {
+      "Medication": "Amoxicillin 500mg",
+      "Dosage": "1 tablet twice daily",
+      "Prescription": "Rx-45678",
+      "Pharmacy": "CVS Health",
+      "Instrucciones": "Tomar con agua",
+      "Advertencia": "No conducir",
+      "Medico": "Dr. Garcia"
+    }
+  },
+  "expected_group": null,
+  "expected_calendar_hook": null,
+  "expected_failure_flags": [
+    "mixed_language"
+  ],
+  "notes": "Mixed English/Spanish medication doc"
+}

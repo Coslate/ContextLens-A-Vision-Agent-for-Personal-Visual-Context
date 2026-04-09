@@ -1,0 +1,38 @@
+{
+  "image_id": "img_014",
+  "expected_type": "whiteboard",
+  "expected_entities": {
+    "bullets": [
+      "Design API endpoints @Alice",
+      "Write unit tests @Bob",
+      "Deploy to staging @Carol"
+    ],
+    "owners": [
+      "Alice",
+      "Bob",
+      "Carol"
+    ],
+    "tasks": [
+      "Design API endpoints",
+      "Write unit tests",
+      "Deploy to staging",
+      "update documentation",
+      "review PR #42"
+    ],
+    "project_tags": [
+      "ProjectAlpha",
+      "Sprint5",
+      "backend"
+    ],
+    "dates": [
+      "due Friday",
+      "Monday"
+    ]
+  },
+  "expected_group": "project_alpha",
+  "expected_calendar_hook": null,
+  "expected_failure_flags": [
+    "blurry_image"
+  ],
+  "notes": "Blurry whiteboard; very low confidence, minimal extraction"
+}

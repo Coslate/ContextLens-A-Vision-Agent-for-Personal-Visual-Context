@@ -1,0 +1,28 @@
+{
+  "image_id": "img_001",
+  "expected_type": "receipt",
+  "expected_entities": {
+    "merchant": "STARBUCKS",
+    "items": [
+      {
+        "name": "Latte",
+        "price": 5.5
+      },
+      {
+        "name": "Muffin",
+        "price": 3.25
+      },
+      {
+        "name": "Iced Tea",
+        "price": 2.75
+      }
+    ],
+    "total": 12.42,
+    "date": "03/15/2024",
+    "currency": "USD"
+  },
+  "expected_group": "receipts_trip",
+  "expected_calendar_hook": null,
+  "expected_failure_flags": [],
+  "notes": "Clean receipt, should achieve high extraction accuracy"
+}

@@ -1,0 +1,19 @@
+{
+  "image_id": "img_008",
+  "expected_type": "document",
+  "expected_entities": {
+    "document_kind": "form",
+    "structured_fields": {
+      "Patient Name": "John Doe",
+      "Date of Birth": "01/15/1985",
+      "Phone": "555-0123",
+      "Address": "123 Main Street",
+      "Insurance ID": "INS-98765",
+      "Emergency Contact": "Jane Doe"
+    }
+  },
+  "expected_group": null,
+  "expected_calendar_hook": null,
+  "expected_failure_flags": [],
+  "notes": "Structured form with key-value pairs"
+}

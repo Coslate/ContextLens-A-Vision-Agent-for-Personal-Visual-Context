@@ -1,0 +1,27 @@
+{
+  "image_id": "img_007",
+  "expected_type": "conversation",
+  "expected_entities": {
+    "participants": [
+      "Alice",
+      "Bob"
+    ],
+    "key_topics": [
+      "project",
+      "API",
+      "documentation",
+      "test"
+    ],
+    "action_items": [
+      "send me the documentation",
+      "prepare it and share by EOD",
+      "check the test results"
+    ]
+  },
+  "expected_group": null,
+  "expected_calendar_hook": null,
+  "expected_failure_flags": [
+    "partial_capture"
+  ],
+  "notes": "Cropped conversation; partial messages"
+}

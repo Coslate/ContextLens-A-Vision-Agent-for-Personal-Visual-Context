@@ -13,3 +13,6 @@ python -m pytest tests/test_classifier.py -v
 
 # test feat: add confidence calibration engine and failure mode handlers 
 python -m pytest tests/test_confidence.py tests/test_failure_handlers.py -v
+
+# test feat: add synthetic test image generator and ground truth annotations
+python -m pytest tests/test_generate_images.py -v

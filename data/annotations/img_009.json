@@ -1,0 +1,19 @@
+{
+  "image_id": "img_009",
+  "expected_type": "document",
+  "expected_entities": {
+    "document_kind": "invoice",
+    "structured_fields": {
+      "Invoice Number": "INV-2024-001",
+      "Date": "March 15, 2024",
+      "Bill To": "Acme Corp",
+      "Ship To": "456 Oak Avenue",
+      "Amount Due": "$1,250.00",
+      "Payment Due": "April 15, 2024"
+    }
+  },
+  "expected_group": null,
+  "expected_calendar_hook": null,
+  "expected_failure_flags": [],
+  "notes": "Invoice document with structured fields"
+}
