@@ -14,10 +14,33 @@
     "action_items": [
       "book the conference room",
       "send her the invite"
+    ],
+    "referenced_events": [
+      {
+        "title": "sync",
+        "time_mention": "tomorrow 3pm",
+        "participants": [
+          "Alice",
+          "Bob",
+          "Carol"
+        ]
+      }
     ]
   },
   "expected_group": null,
   "expected_calendar_hook": true,
+  "expected_calendar_events": [
+    {
+      "title": "sync",
+      "time_mention": "tomorrow 3pm",
+      "participants": [
+        "Alice",
+        "Bob",
+        "Carol"
+      ]
+    }
+  ],
+  "expected_needs_clarification": false,
   "expected_failure_flags": [],
   "notes": "Meeting reference triggers calendar hook"
 }

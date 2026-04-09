@@ -28,6 +28,8 @@
   },
   "expected_group": "project_alpha",
   "expected_calendar_hook": null,
+  "expected_calendar_events": [],
+  "expected_needs_clarification": false,
   "expected_failure_flags": [],
   "notes": "Related to img_011 via shared project tags; should be linked"
 }

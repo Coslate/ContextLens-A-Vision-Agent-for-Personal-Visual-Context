@@ -139,5 +139,11 @@ class Annotation(BaseModel):
     expected_entities: dict = Field(default_factory=dict)
     expected_group: Optional[str] = None
     expected_calendar_hook: Optional[bool] = None
+    expected_calendar_events: list[dict] = Field(
+        default_factory=list,
+        description="Expected calendar event candidates for evaluation "
+        "(title, time_mention, participants).",
+    )
+    expected_needs_clarification: Optional[bool] = None
     expected_failure_flags: list[FailureFlag] = Field(default_factory=list)
     notes: str = ""

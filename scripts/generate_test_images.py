@@ -140,6 +140,8 @@ def _gen_receipt_clean() -> tuple[Image.Image, dict]:
         },
         "expected_group": "receipts_trip",
         "expected_calendar_hook": None,
+        "expected_calendar_events": [],
+        "expected_needs_clarification": False,
         "expected_failure_flags": [],
         "notes": "Clean receipt, should achieve high extraction accuracy",
     }
@@ -150,6 +152,7 @@ def _gen_receipt_rotated() -> tuple[Image.Image, dict]:
     img, ann = _gen_receipt_clean()
     img = _apply_rotation(img, 90)
     ann["image_id"] = "img_002"
+    ann["expected_needs_clarification"] = False
     ann["expected_failure_flags"] = ["rotation_unresolved"]
     ann["notes"] = "Rotated 90 degrees; rotation correction needed"
     return img, ann
@@ -159,6 +162,7 @@ def _gen_receipt_blurry() -> tuple[Image.Image, dict]:
     img, ann = _gen_receipt_clean()
     img = _apply_blur(img, ksize=31)
     ann["image_id"] = "img_003"
+    ann["expected_needs_clarification"] = True
     ann["expected_failure_flags"] = ["blurry_image"]
     ann["notes"] = "Gaussian blur applied; expect low confidence"
     return img, ann
@@ -170,6 +174,7 @@ def _gen_receipt_cropped() -> tuple[Image.Image, dict]:
     ann["image_id"] = "img_004"
     ann["expected_entities"]["total"] = None  # cropped off
     ann["expected_entities"]["date"] = None
+    ann["expected_needs_clarification"] = True
     ann["expected_failure_flags"] = ["partial_capture"]
     ann["notes"] = "Bottom cropped; total and date missing"
     return img, ann
@@ -198,6 +203,8 @@ def _gen_conversation_clean() -> tuple[Image.Image, dict]:
         },
         "expected_group": None,
         "expected_calendar_hook": None,
+        "expected_calendar_events": [],
+        "expected_needs_clarification": False,
         "expected_failure_flags": [],
         "notes": "Clean conversation with action items, no calendar event",
     }
@@ -223,9 +230,24 @@ def _gen_conversation_meeting() -> tuple[Image.Image, dict]:
                 "book the conference room",
                 "send her the invite",
             ],
+            "referenced_events": [
+                {
+                    "title": "sync",
+                    "time_mention": "tomorrow 3pm",
+                    "participants": ["Alice", "Bob", "Carol"],
+                },
+            ],
         },
         "expected_group": None,
         "expected_calendar_hook": True,
+        "expected_calendar_events": [
+            {
+                "title": "sync",
+                "time_mention": "tomorrow 3pm",
+                "participants": ["Alice", "Bob", "Carol"],
+            },
+        ],
+        "expected_needs_clarification": False,
         "expected_failure_flags": [],
         "notes": "Meeting reference triggers calendar hook",
     }
@@ -236,8 +258,20 @@ def _gen_conversation_cropped() -> tuple[Image.Image, dict]:
     img, ann = _gen_conversation_clean()
     img = _crop_bottom(img, fraction=0.5)
     ann["image_id"] = "img_007"
+    # Only top ~3 of 5 messages visible after 50% bottom crop.
+    # Visible: "Alice: Hey...", "Bob: Pretty well...", "Alice: Great! Can you send..."
+    # Cropped: "Bob: Sure, I'll prepare...", "Alice: Thanks, also check..."
+    ann["expected_entities"] = {
+        "participants": ["Alice", "Bob"],
+        "key_topics": ["project", "API", "documentation"],
+        "action_items": [
+            "send me the documentation",
+        ],
+    }
+    ann["expected_calendar_events"] = []
+    ann["expected_needs_clarification"] = True
     ann["expected_failure_flags"] = ["partial_capture"]
-    ann["notes"] = "Cropped conversation; partial messages"
+    ann["notes"] = "Cropped conversation; bottom 50% cut, only first 3 messages visible"
     return img, ann
 
 
@@ -269,6 +303,8 @@ def _gen_document_form() -> tuple[Image.Image, dict]:
         },
         "expected_group": None,
         "expected_calendar_hook": None,
+        "expected_calendar_events": [],
+        "expected_needs_clarification": False,
         "expected_failure_flags": [],
         "notes": "Structured form with key-value pairs",
     }
@@ -308,6 +344,8 @@ def _gen_document_invoice() -> tuple[Image.Image, dict]:
         },
         "expected_group": None,
         "expected_calendar_hook": None,
+        "expected_calendar_events": [],
+        "expected_needs_clarification": False,
         "expected_failure_flags": [],
         "notes": "Invoice document with structured fields",
     }
@@ -343,6 +381,8 @@ def _gen_document_mixed_lang() -> tuple[Image.Image, dict]:
         },
         "expected_group": None,
         "expected_calendar_hook": None,
+        "expected_calendar_events": [],
+        "expected_needs_clarification": False,
         "expected_failure_flags": ["mixed_language"],
         "notes": "Mixed English/Spanish medication doc",
     }
@@ -388,6 +428,8 @@ def _gen_whiteboard_clean() -> tuple[Image.Image, dict]:
         },
         "expected_group": "project_alpha",
         "expected_calendar_hook": None,
+        "expected_calendar_events": [],
+        "expected_needs_clarification": False,
         "expected_failure_flags": [],
         "notes": "Clean whiteboard with structured elements",
     }
@@ -432,6 +474,8 @@ def _gen_whiteboard_related() -> tuple[Image.Image, dict]:
         },
         "expected_group": "project_alpha",
         "expected_calendar_hook": None,
+        "expected_calendar_events": [],
+        "expected_needs_clarification": False,
         "expected_failure_flags": [],
         "notes": "Related to img_011 via shared project tags; should be linked",
     }
@@ -462,6 +506,8 @@ def _gen_whiteboard_messy() -> tuple[Image.Image, dict]:
         },
         "expected_group": None,
         "expected_calendar_hook": None,
+        "expected_calendar_events": [],
+        "expected_needs_clarification": True,
         "expected_failure_flags": ["ocr_uncertain"],
         "notes": "Messy handwriting with noise; low OCR confidence expected",
     }
@@ -472,6 +518,7 @@ def _gen_whiteboard_blurry() -> tuple[Image.Image, dict]:
     img, ann = _gen_whiteboard_clean()
     img = _apply_blur(img, ksize=35)
     ann["image_id"] = "img_014"
+    ann["expected_needs_clarification"] = True
     ann["expected_failure_flags"] = ["blurry_image"]
     ann["notes"] = "Blurry whiteboard; very low confidence, minimal extraction"
     return img, ann

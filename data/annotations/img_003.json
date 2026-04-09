@@ -23,6 +23,8 @@
   },
   "expected_group": "receipts_trip",
   "expected_calendar_hook": null,
+  "expected_calendar_events": [],
+  "expected_needs_clarification": true,
   "expected_failure_flags": [
     "blurry_image"
   ],

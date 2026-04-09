@@ -158,6 +158,105 @@ class TestFailureAnnotations:
 
 
 # =====================================================================
+# Needs-clarification annotations
+# =====================================================================
+
+class TestNeedsClarification:
+    def _load(self, image_id: str) -> dict:
+        with open(ANN_DIR / f"{image_id}.json") as f:
+            return json.load(f)
+
+    @pytest.mark.parametrize("image_id", [
+        "img_001", "img_002", "img_005", "img_006",
+        "img_008", "img_009", "img_010", "img_011", "img_012",
+    ])
+    def test_clean_images_no_clarification(self, image_id):
+        ann = self._load(image_id)
+        assert ann["expected_needs_clarification"] is False
+
+    @pytest.mark.parametrize("image_id,reason", [
+        ("img_003", "blurry_image"),
+        ("img_004", "partial_capture"),
+        ("img_007", "partial_capture"),
+        ("img_013", "ocr_uncertain"),
+        ("img_014", "blurry_image"),
+    ])
+    def test_adversarial_images_need_clarification(self, image_id, reason):
+        ann = self._load(image_id)
+        assert ann["expected_needs_clarification"] is True
+        assert reason in ann["expected_failure_flags"]
+
+    def test_all_annotations_have_field(self):
+        for iid in IMAGE_IDS:
+            ann = self._load(iid)
+            assert "expected_needs_clarification" in ann, (
+                f"{iid} missing expected_needs_clarification"
+            )
+
+
+# =====================================================================
+# Calendar event annotations
+# =====================================================================
+
+class TestCalendarEventAnnotations:
+    def _load(self, image_id: str) -> dict:
+        with open(ANN_DIR / f"{image_id}.json") as f:
+            return json.load(f)
+
+    def test_meeting_conversation_has_event_details(self):
+        ann = self._load("img_006")
+        assert len(ann["expected_calendar_events"]) == 1
+        event = ann["expected_calendar_events"][0]
+        assert "title" in event
+        assert "time_mention" in event
+        assert "participants" in event
+        assert len(event["participants"]) >= 2
+
+    def test_meeting_conversation_entities_have_referenced_events(self):
+        ann = self._load("img_006")
+        assert "referenced_events" in ann["expected_entities"]
+        assert len(ann["expected_entities"]["referenced_events"]) >= 1
+
+    def test_non_meeting_images_no_calendar_events(self):
+        for iid in IMAGE_IDS:
+            if iid == "img_006":
+                continue
+            ann = self._load(iid)
+            assert ann.get("expected_calendar_events", []) == [], (
+                f"{iid} should not have calendar events"
+            )
+
+
+# =====================================================================
+# Cropped conversation entity correctness
+# =====================================================================
+
+class TestCroppedConversationEntities:
+    def _load(self, image_id: str) -> dict:
+        with open(ANN_DIR / f"{image_id}.json") as f:
+            return json.load(f)
+
+    def test_img007_fewer_action_items_than_clean(self):
+        clean = self._load("img_005")
+        cropped = self._load("img_007")
+        assert len(cropped["expected_entities"]["action_items"]) < len(
+            clean["expected_entities"]["action_items"]
+        )
+
+    def test_img007_fewer_topics_than_clean(self):
+        clean = self._load("img_005")
+        cropped = self._load("img_007")
+        assert len(cropped["expected_entities"]["key_topics"]) <= len(
+            clean["expected_entities"]["key_topics"]
+        )
+
+    def test_img007_participants_preserved(self):
+        """Participants appear in early messages so still visible after crop."""
+        ann = self._load("img_007")
+        assert set(ann["expected_entities"]["participants"]) == {"Alice", "Bob"}
+
+
+# =====================================================================
 # Linking annotations
 # =====================================================================
 

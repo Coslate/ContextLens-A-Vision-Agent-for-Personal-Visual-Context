@@ -9,19 +9,18 @@
     "key_topics": [
       "project",
       "API",
-      "documentation",
-      "test"
+      "documentation"
     ],
     "action_items": [
-      "send me the documentation",
-      "prepare it and share by EOD",
-      "check the test results"
+      "send me the documentation"
     ]
   },
   "expected_group": null,
   "expected_calendar_hook": null,
+  "expected_calendar_events": [],
+  "expected_needs_clarification": true,
   "expected_failure_flags": [
     "partial_capture"
   ],
-  "notes": "Cropped conversation; partial messages"
+  "notes": "Cropped conversation; bottom 50% cut, only first 3 messages visible"
 }
