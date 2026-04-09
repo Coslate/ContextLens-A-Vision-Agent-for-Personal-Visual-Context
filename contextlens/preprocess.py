@@ -39,11 +39,59 @@ def compute_contrast(gray: np.ndarray) -> float:
     return float(np.std(gray) / 255.0)
 
 
+def _detect_quarter_turn(gray: np.ndarray) -> int:
+    """Detect 90° rotation by comparing projection band counts.
+
+    Normal text images: characters span more columns than there are text-line
+    rows, so vertical-projection bands > horizontal-projection bands.
+    When a text image is rotated 90°, horizontal bands > vertical bands.
+
+    Returns:
+        Detected quarter-turn angle (0 or 90).
+    """
+    # Binarize with Otsu threshold
+    _, binary = cv2.threshold(
+        gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU,
+    )
+
+    # Project along each axis
+    h_proj = np.sum(binary, axis=1)  # per-row ink count
+    v_proj = np.sum(binary, axis=0)  # per-column ink count
+
+    # Count distinct contiguous bands (zero-to-nonzero transitions)
+    h_bands = int(np.count_nonzero(np.diff((h_proj > 0).astype(np.int8)) == 1))
+    v_bands = int(np.count_nonzero(np.diff((v_proj > 0).astype(np.int8)) == 1))
+
+    h, w = gray.shape
+    # In normal text, v_bands >= h_bands (more character columns than text rows).
+    # In 90°-rotated text, h_bands > v_bands by a clear margin.
+    # Additional guard: the image should be landscape (wider than tall) since
+    # rotating a portrait text image 90° makes it landscape.  Also require
+    # both band counts to be meaningful (> 3) to avoid false positives from
+    # blurry images where Otsu binarization collapses bands.
+    is_landscape = w > h
+    if (h_bands > v_bands * 1.4
+            and h_bands >= 5
+            and v_bands >= 3
+            and is_landscape):
+        return 90
+
+    return 0
+
+
 def estimate_rotation_angle(gray: np.ndarray) -> float:
     """Estimate dominant text line rotation angle using Hough lines.
 
+    First checks for quarter-turn (90°) rotation, then falls back to
+    Hough-based skew detection for small angles.
+
     Returns angle in degrees. 0 means no rotation detected.
     """
+    # Check for quarter-turn rotation first
+    quarter = _detect_quarter_turn(gray)
+    if quarter != 0:
+        return float(quarter)
+
     edges = cv2.Canny(gray, 50, 150, apertureSize=3)
     lines = cv2.HoughLinesP(edges, 1, np.pi / 180, threshold=80,
                             minLineLength=gray.shape[1] // 4, maxLineGap=10)

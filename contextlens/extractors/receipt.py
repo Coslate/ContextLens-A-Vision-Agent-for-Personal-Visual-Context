@@ -44,12 +44,52 @@ class ReceiptExtractor(ConditionedExtractor):
 
     image_type = ImageType.RECEIPT
 
+    @staticmethod
+    def _merge_span_lines(ocr: OCRResult) -> list[str]:
+        """Merge horizontally-adjacent OCR spans into visual lines.
+
+        EasyOCR often emits separate spans for text and price on the same
+        row (e.g. "Latte" and "$5.50").  This groups spans by vertical
+        position and joins them so downstream extraction sees full lines.
+        """
+        if not ocr.spans:
+            return [ln.strip() for ln in ocr.raw_text.split("\n") if ln.strip()]
+
+        # Sort spans by y-center first, then group by proximity
+        sorted_spans = sorted(ocr.spans, key=lambda s: s.bbox[1] + s.bbox[3] / 2)
+
+        # Group spans by approximate y-center (within tight threshold)
+        rows: list[list[tuple[float, float, str]]] = []  # [(x, y_center, text)]
+        for span in sorted_spans:
+            x, y, _w, h = span.bbox
+            y_center = y + h / 2
+            placed = False
+            for row in rows:
+                # Average y-center of existing row members
+                avg_yc = sum(yc for _, yc, _ in row) / len(row)
+                if abs(avg_yc - y_center) < max(h * 0.35, 5):
+                    row.append((x, y_center, span.text))
+                    placed = True
+                    break
+            if not placed:
+                rows.append([(x, y_center, span.text)])
+
+        # Sort rows top-to-bottom, spans left-to-right within each row
+        rows.sort(key=lambda r: min(yc for _, yc, _ in r))
+        merged: list[str] = []
+        for row in rows:
+            row.sort(key=lambda t: t[0])
+            line = "  ".join(text for _, _, text in row).strip()
+            if line:
+                merged.append(line)
+        return merged
+
     def extract(
         self,
         ocr: OCRResult,
         quality: QualitySignals | None = None,
     ) -> tuple[ReceiptEntities, dict[str, float], None]:
-        lines = [ln.strip() for ln in ocr.raw_text.split("\n") if ln.strip()]
+        lines = self._merge_span_lines(ocr)
         span_conf = {s.text: s.confidence for s in ocr.spans} if ocr.spans else {}
 
         merchant = self._extract_merchant(lines, span_conf)
