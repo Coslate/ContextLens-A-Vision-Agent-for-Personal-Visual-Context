@@ -122,7 +122,7 @@
   "quality_signals": {
     "blur_score": 5014.439103477168,
     "brightness": 0.9628449362149553,
-    "contrast": 0.17268619987008255,
+    "contrast": 0.17268619987008257,
     "estimated_quality": 0.7,
     "is_blurry": false,
     "is_rotated": false

@@ -61,8 +61,8 @@ def step_generate_images() -> list[Path]:
         return existing
 
     print("  Generating 14 synthetic test images...")
-    from scripts.generate_test_images import main as generate_main
-    generate_main()
+    from scripts.generate_test_images import generate_all
+    generate_all()    
 
     images = sorted(TEST_IMAGES_DIR.glob("*.png"))
     print(f"  Generated {len(images)} images.")

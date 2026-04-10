@@ -26,7 +26,7 @@
   "failure_flags": [],
   "needs_clarification": false,
   "quality_signals": {
-    "blur_score": 8809.78258890171,
+    "blur_score": 8809.782588901706,
     "brightness": 0.9341085137085137,
     "contrast": 0.2257278594517123,
     "estimated_quality": 0.7,
