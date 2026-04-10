@@ -19,3 +19,6 @@ python -m pytest tests/test_confidence.py tests/test_failure_handlers.py -v
 
 # test feat: add synthetic test image generator and ground truth annotations
 python -m pytest tests/test_generate_images.py -v
+
+# test feat: add cross-image context fuser, SQLite memory store, and query API
+python -m pytest tests/test_linker.py tests/test_memory.py -v
