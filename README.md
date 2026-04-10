@@ -78,9 +78,7 @@ The ContextLens pipeline processes each image through a sequence of specialized 
 
 > System Architecture.
 
-```md
 ![System Architecture](./assets/architecture.png)
-```
 
 The pipeline begins with **preprocessing**, which analyzes the raw image for quality signals — blur score (Laplacian variance), brightness, contrast, and rotation detection. These signals serve two purposes: they feed into the confidence calibrator later (a blurry image should produce lower confidence scores), and they trigger failure handlers (a heavily blurred image should be flagged, not silently misread).
 
@@ -251,9 +249,7 @@ The benchmark includes known cross-image relationships (all test images are unde
 
 #### Sample A: Clean Receipt (`img_001`)
 
-```md
 ![Sample Receipt](./data/test_images/img_001.png)
-```
 
 Expected JSON snippet:
 
@@ -277,9 +273,7 @@ Expected JSON snippet:
 
 #### Sample B: Meeting Conversation (`img_006`)
 
-```md
 ![Sample Conversation](./data/test_images/img_006.png)
-```
 
 Expected JSON snippet:
 
@@ -307,9 +301,7 @@ Expected JSON snippet:
 
 #### Sample C: Related Whiteboard (`img_011` / `img_012`)
 
-```md
 ![Sample Whiteboard](./data/test_images/img_012.png)
-```
 
 Expected JSON snippet:
 
@@ -339,9 +331,7 @@ Expected JSON snippet:
 
 #### Sample D: Adversarial Cropped Receipt (`img_004`)
 
-```md
 ![Sample Adversarial Receipt](./data/test_images/img_004.png)
-```
 
 Expected JSON snippet:
 
@@ -362,175 +352,9 @@ Expected JSON snippet:
   "expected_failure_flags": ["partial_capture"]
 }
 ```
-
 ---
 
-## 8. Evaluation Metrics
-
-Each metric targets a specific dimension of system quality. Together, they answer whether the structured pipeline produces outputs that are accurate, trustworthy, robust, and useful for downstream agents.
-
-### 8.1 Extraction Accuracy
-
-**What it measures:** How correctly the system extracts structured fields from images, compared to ground truth annotations.
-
-**Why it matters:** Extraction accuracy is the most basic requirement — if the system cannot correctly read a receipt total or identify conversation participants, nothing else matters. However, raw accuracy alone is insufficient (which is why we also measure calibration, robustness, and linking). A system with 80% accuracy and well-calibrated confidence is far more useful than one with 85% accuracy and no confidence signal.
-
-**How it is computed:** Each image's extracted entities are compared field-by-field against the ground truth annotation. Three matching strategies are used depending on field type:
-
-- **Exact match** (for fields with a single canonical value): merchant name, total amount, date, document kind. The predicted value must exactly match the ground truth (case-insensitive for strings, numeric tolerance for amounts).
-- **Fuzzy match** (for fields where OCR may introduce minor character-level errors): item names, participant names, topic keywords. We use the `rapidfuzz` library with a similarity threshold of 80 — if the predicted string is at least 80% similar to the ground truth string, it counts as a match. This accommodates OCR artifacts (e.g., "Latte" vs "Latte ") without rewarding completely wrong extractions.
-- **F1-style set matching** (for list-valued fields where both precision and recall matter): action items, text blocks, structured field keys. We compute F1 = 2 * (precision * recall) / (precision + recall), where precision is the fraction of predicted items that match a ground truth item, and recall is the fraction of ground truth items that are matched.
-
-Results are reported separately for **clean images** (7 images with no adversarial degradation) and **adversarial images** (7 images with blur, rotation, cropping, or noise) to quantify graceful degradation.
-
-### 8.2 Type Classification Accuracy
-
-**What it measures:** Whether the system correctly identifies the image type (receipt, conversation, document, or whiteboard).
-
-**Why it matters:** Type classification is the entry point for conditioned extraction. If the system misclassifies a receipt as a whiteboard, the wrong extractor runs and the output will be structurally incorrect regardless of OCR quality. This metric validates that the type classifier — which routes images to their type-specific extraction schemas — works correctly.
-
-**How it is computed:** For each image, the predicted `type` field is compared against `expected_type` in the ground truth annotation. Accuracy = (number of correct classifications) / (total images). We report this as a single number across all 14 images.
-
-### 8.3 Confidence Calibration
-
-**What it measures:** Whether the system's confidence scores are *meaningful* — specifically, whether high-confidence predictions are actually correct more often than low-confidence predictions.
-
-**Why it matters:** This is the single most important evaluation dimension, as highlighted by the challenge hints. A system that reports 95% confidence on every field — even blurry, cropped, or ambiguous ones — is dangerous for downstream agents. A well-calibrated system that says "I'm only 30% sure about this total" is far more useful than one that is wrong with high confidence. Calibration tells us: **when the system says it is confident, can we trust it?**
-
-**How it is computed:**
-
-1. **Collect pairs**: For every extracted field across all images, we collect a `(predicted_confidence, is_correct)` pair, where `is_correct` is 1 if the field matches ground truth (using the matching rules from 8.1) and 0 otherwise.
-2. **Bucket by confidence**: Pairs are grouped into 5 confidence buckets: [0, 0.3), [0.3, 0.5), [0.5, 0.7), [0.7, 0.9), [0.9, 1.0].
-3. **Compute accuracy per bucket**: For each bucket, actual accuracy = (number correct in bucket) / (total in bucket).
-4. **Plot**: x-axis = mean predicted confidence per bucket, y-axis = actual accuracy. A perfectly calibrated system follows the diagonal (predicted confidence = actual accuracy). A well-calibrated system shows a monotonically increasing curve.
-
-**Primary metrics:**
-- **Calibration plot** (the #1 artifact): visual inspection of whether accuracy increases with confidence
-- **ECE (Expected Calibration Error)**: the weighted average of |actual_accuracy - mean_confidence| across all buckets, weighted by the number of samples in each bucket. Lower ECE means better calibration. A perfectly calibrated system has ECE = 0.
-- **Spearman rank correlation**: measures whether the ranking of confidence buckets matches the ranking of accuracy buckets. A correlation of 1.0 means perfect monotonic agreement; 0.0 means no relationship. This captures whether the system at least gets the ordering right, even if the absolute values are off.
-
-### 8.4 Linking Quality
-
-**What it measures:** Whether the system correctly identifies which images are related and groups them together.
-
-**Why it matters:** Cross-image linking is what transforms isolated extractions into a connected memory. Without linking, five receipts from the same trip are five independent records; with linking, they become a group with a fused summary like "5 receipts from SF trip, March 15-16, total $127.40." This metric tests the BEV-JEPA fusion analog — whether the system can produce emergent understanding from multiple images.
-
-**How it is computed:** Linking quality is evaluated at the pairwise level. For N images, there are N*(N-1)/2 possible pairs. Each pair is either "should be linked" (same expected group in ground truth) or "should not be linked."
-
-- **Pairwise precision**: Of all pairs the system predicted as linked (same group_id), what fraction are actually in the same ground truth group? High precision means the system does not create spurious links.
-- **Pairwise recall**: Of all pairs that should be linked (same ground truth group), what fraction did the system correctly link? High recall means the system does not miss real relationships.
-- **Pairwise F1**: The harmonic mean of pairwise precision and recall, providing a single summary score.
-- **Groups identified**: The number of distinct groups the system creates, compared to the expected number (2: one receipt group and one whiteboard group).
-
-### 8.5 Failure Robustness
-
-**What it measures:** Whether the system correctly detects and responds to degraded inputs — blurry photos, rotated captures, partial crops, and mixed-language/low-OCR text.
-
-**Why it matters:** Real-world images are messy. A system that silently returns high-confidence garbage on a blurry photo is worse than one that says "this image is blurry, I'm only 30% confident in these extractions, and you should re-capture it." Failure robustness is what separates a demo from a production-grade agent component.
-
-**How it is computed:** For each of the 7 adversarial images in the test set:
-- **Flag accuracy**: Did the system set the correct failure flag(s)? (e.g., `blurry_image` for blurred images, `partial_capture` for cropped images, `ocr_uncertain` for noisy/mixed-language images). We count correct flags out of total expected flags.
-- **Clarification accuracy**: Did the system correctly set `needs_clarification = true` for images that warrant it and `false` for images that do not?
-- **Confidence reduction**: Did field confidence scores decrease on adversarial images compared to their clean counterparts? (Qualitative check — adversarial images should not receive the same high confidence as clean ones.)
-- **Partial extraction honesty**: Did the system return partial extraction with null/low-confidence fields for missing data, rather than fabricating values? (Qualitative check.)
-
-### 8.6 Calendar Hook Detection
-
-**What it measures:** Whether the system detects meeting references in conversation screenshots and emits calendar hook metadata for downstream scheduling agents.
-
-**Why it matters:** Calendar hook detection is the bridge between visual context and actionable agent behavior. When a conversation screenshot says "Let's schedule a meeting for tomorrow at 3pm," the vision agent should not just extract text — it should flag that a calendar event is referenced, so the downstream agent stack can offer to create the event or check for conflicts. This metric tests whether the system can cross the boundary from passive extraction to active agent support.
-
-**How it is computed:** For images annotated with `expected_calendar_hook = true`, we check whether the system's output includes a non-null `calendar_hook` field with at least one event candidate. Hook recall = (detected hooks) / (expected hooks). In the current test set, `img_006` (a conversation screenshot referencing a meeting) is the target image.
-
----
-
-## 9. Evaluation Results
-
-### 9.1 Proposed vs Baseline
-
-| Metric | Proposed (Structured Pipeline) | Baseline |
-|---|---:|---:|
-| Type classification accuracy | 0.857 | 0.643 |
-| Extraction accuracy (clean) | 0.826 | 0.261 |
-| Extraction accuracy (adversarial) | 0.357 | 0.250 |
-| Calibration ECE (lower is better) | 0.107 | 0.276 |
-| Calibration correlation | 1.000 | 0.000 |
-| Failure flags correct | 3/7 | 0/7 |
-| Linking pairwise F1 | 0.286 | 0.000 |
-| Groups identified | 3 | 0 |
-| Calendar hooks detected | 1/1 | 0/1 |
-
-### 9.2 Result Interpretation
-
-#### Strong wins for the proposed method
-The structured pipeline clearly outperforms the baseline on the challenge’s most important dimensions:
-
-- **Clean-image extraction** is much stronger (`0.826` vs `0.261`)
-- **Adversarial extraction** is better, though still challenging (`0.357` vs `0.250`)
-- **Calibration** is dramatically better (`ECE 0.107` vs `0.276`, correlation `1.000` vs `0.000`)
-- **Agent-specific capabilities** such as failure flags, grouping, and calendar hooks are present only in the structured pipeline
-
-#### Why this matters
-This result shows that the benefit of the architecture is not just raw extraction accuracy. The bigger gain is that the proposed system produces outputs that are much more **trustworthy, interpretable, and usable by downstream agents**.
-
-### 9.3 Calibration Figure
-
-```md
-![Confidence Calibration](results/figures/calibration.png)
-```
-
-Interpretation:
-- The **structured pipeline** spreads predictions across multiple confidence buckets, and actual accuracy increases as confidence increases. The curve is comparable to the perfect line (gray).
-- The **baseline** collapses into a nearly single flat-confidence bucket around `0.8`, but actual accuracy is much lower, showing strong overconfidence.
-
-### 9.4 Result File Locations
-
-All evaluation artifacts are generated by `python -m scripts.run_demo` and stored under the `results/` directory:
-
-| Artifact | Path |
-|---|---|
-| Calibration plot | `results/figures/calibration.png` |
-| Comparison table (CSV) | `results/tables/comparison.csv` |
-| Structured pipeline metrics (JSON) | `results/metrics/structured_metrics.json` |
-| Baseline metrics (JSON) | `results/metrics/baseline_metrics.json` |
-| Per-image structured outputs | `data/outputs/structured/img_001.json` ... `img_014.json` |
-| Per-image baseline outputs | `data/outputs/baseline/img_001.json` ... `img_014.json` |
-| Ground truth annotations | `data/annotations/img_001.json` ... `img_014.json` |
-| Synthetic test images | `data/test_images/img_001.png` ... `img_014.png` |
-
-### 9.5 Additional Metric Detail
-
-#### Structured pipeline metric snapshot
-- `type_accuracy = 0.857`
-- `extraction_accuracy_clean = 0.826`
-- `extraction_accuracy_adversarial = 0.357`
-- `calibration_ece = 0.107`
-- `calibration_correlation = 1.000`
-- `linking_precision = 0.400`
-- `linking_recall = 0.222`
-- `hook_recall = 1.000`
-
-#### Baseline metric snapshot
-- `type_accuracy = 0.643`
-- `extraction_accuracy_clean = 0.261`
-- `extraction_accuracy_adversarial = 0.250`
-- `calibration_ece = 0.276`
-- `calibration_correlation = 0.000`
-- `linking_precision = 0.000`
-- `linking_recall = 0.000`
-- `hook_recall = 0.000`
-
-### 9.6 Honest Limitations from the Current Results
-The current system is strong in architecture and calibration, but there are still clear weaknesses:
-- adversarial extraction remains difficult,
-- failure flag coverage is incomplete (`3/7`),
-- linking is present but still weak (`pairwise F1 = 0.286`).
-
-These are not hidden; they directly motivate the next steps below.
-
----
-
-## 10. Output Format
+## 8. Output Format
 
 Every image produces a structured JSON:
 
@@ -558,6 +382,169 @@ Every image produces a structured JSON:
   "calendar_hook": null
 }
 ```
+
+---
+
+## 9. Evaluation Metrics
+
+Each metric targets a specific dimension of system quality. Together, they answer whether the structured pipeline produces outputs that are accurate, trustworthy, robust, and useful for downstream agents.
+
+### 9.1 Extraction Accuracy
+
+**What it measures:** How correctly the system extracts structured fields from images, compared to ground truth annotations.
+
+**Why it matters:** Extraction accuracy is the most basic requirement — if the system cannot correctly read a receipt total or identify conversation participants, nothing else matters. However, raw accuracy alone is insufficient (which is why we also measure calibration, robustness, and linking). A system with 80% accuracy and well-calibrated confidence is far more useful than one with 85% accuracy and no confidence signal.
+
+**How it is computed:** Each image's extracted entities are compared field-by-field against the ground truth annotation. Three matching strategies are used depending on field type:
+
+- **Exact match** (for fields with a single canonical value): merchant name, total amount, date, document kind. The predicted value must exactly match the ground truth (case-insensitive for strings, numeric tolerance for amounts).
+- **Fuzzy match** (for fields where OCR may introduce minor character-level errors): item names, participant names, topic keywords. We use the `rapidfuzz` library with a similarity threshold of 80 — if the predicted string is at least 80% similar to the ground truth string, it counts as a match. This accommodates OCR artifacts (e.g., "Latte" vs "Latte ") without rewarding completely wrong extractions.
+- **F1-style set matching** (for list-valued fields where both precision and recall matter): action items, text blocks, structured field keys. We compute F1 = 2 * (precision * recall) / (precision + recall), where precision is the fraction of predicted items that match a ground truth item, and recall is the fraction of ground truth items that are matched.
+
+Results are reported separately for **clean images** (7 images with no adversarial degradation) and **adversarial images** (7 images with blur, rotation, cropping, or noise) to quantify graceful degradation.
+
+### 9.2 Type Classification Accuracy
+
+**What it measures:** Whether the system correctly identifies the image type (receipt, conversation, document, or whiteboard).
+
+**Why it matters:** Type classification is the entry point for conditioned extraction. If the system misclassifies a receipt as a whiteboard, the wrong extractor runs and the output will be structurally incorrect regardless of OCR quality. This metric validates that the type classifier — which routes images to their type-specific extraction schemas — works correctly.
+
+**How it is computed:** For each image, the predicted `type` field is compared against `expected_type` in the ground truth annotation. Accuracy = (number of correct classifications) / (total images). We report this as a single number across all 14 images.
+
+### 9.3 Confidence Calibration
+
+**What it measures:** Whether the system's confidence scores are *meaningful* — specifically, whether high-confidence predictions are actually correct more often than low-confidence predictions.
+
+**Why it matters:** This is the single most important evaluation dimension, as highlighted by the challenge hints. A system that reports 95% confidence on every field — even blurry, cropped, or ambiguous ones — is dangerous for downstream agents. A well-calibrated system that says "I'm only 30% sure about this total" is far more useful than one that is wrong with high confidence. Calibration tells us: **when the system says it is confident, can we trust it?**
+
+**How it is computed:**
+
+1. **Collect pairs**: For every extracted field across all images, we collect a `(predicted_confidence, is_correct)` pair, where `is_correct` is 1 if the field matches ground truth (using the matching rules from 8.1) and 0 otherwise.
+2. **Bucket by confidence**: Pairs are grouped into 5 confidence buckets: [0, 0.3), [0.3, 0.5), [0.5, 0.7), [0.7, 0.9), [0.9, 1.0].
+3. **Compute accuracy per bucket**: For each bucket, actual accuracy = (number correct in bucket) / (total in bucket).
+4. **Plot**: x-axis = mean predicted confidence per bucket, y-axis = actual accuracy. A perfectly calibrated system follows the diagonal (predicted confidence = actual accuracy). A well-calibrated system shows a monotonically increasing curve.
+
+**Primary metrics:**
+- **Calibration plot** (the #1 artifact): visual inspection of whether accuracy increases with confidence
+- **ECE (Expected Calibration Error)**: the weighted average of |actual_accuracy - mean_confidence| across all buckets, weighted by the number of samples in each bucket. Lower ECE means better calibration. A perfectly calibrated system has ECE = 0.
+- **Spearman rank correlation**: measures whether the ranking of confidence buckets matches the ranking of accuracy buckets. A correlation of 1.0 means perfect monotonic agreement; 0.0 means no relationship. This captures whether the system at least gets the ordering right, even if the absolute values are off.
+
+### 9.4 Linking Quality
+
+**What it measures:** Whether the system correctly identifies which images are related and groups them together.
+
+**Why it matters:** Cross-image linking is what transforms isolated extractions into a connected memory. Without linking, five receipts from the same trip are five independent records; with linking, they become a group with a fused summary like "5 receipts from SF trip, March 15-16, total $127.40." This metric tests the BEV-JEPA fusion analog — whether the system can produce emergent understanding from multiple images.
+
+**How it is computed:** Linking quality is evaluated at the pairwise level. For N images, there are N*(N-1)/2 possible pairs. Each pair is either "should be linked" (same expected group in ground truth) or "should not be linked."
+
+- **Pairwise precision**: Of all pairs the system predicted as linked (same group_id), what fraction are actually in the same ground truth group? High precision means the system does not create spurious links.
+- **Pairwise recall**: Of all pairs that should be linked (same ground truth group), what fraction did the system correctly link? High recall means the system does not miss real relationships.
+- **Pairwise F1**: The harmonic mean of pairwise precision and recall, providing a single summary score.
+- **Groups identified**: The number of distinct groups the system creates, compared to the expected number (2: one receipt group and one whiteboard group).
+
+### 9.5 Failure Robustness
+
+**What it measures:** Whether the system correctly detects and responds to degraded inputs — blurry photos, rotated captures, partial crops, and mixed-language/low-OCR text.
+
+**Why it matters:** Real-world images are messy. A system that silently returns high-confidence garbage on a blurry photo is worse than one that says "this image is blurry, I'm only 30% confident in these extractions, and you should re-capture it." Failure robustness is what separates a demo from a production-grade agent component.
+
+**How it is computed:** For each of the 7 adversarial images in the test set:
+- **Flag accuracy**: Did the system set the correct failure flag(s)? (e.g., `blurry_image` for blurred images, `partial_capture` for cropped images, `ocr_uncertain` for noisy/mixed-language images). We count correct flags out of total expected flags.
+- **Clarification accuracy**: Did the system correctly set `needs_clarification = true` for images that warrant it and `false` for images that do not?
+- **Confidence reduction**: Did field confidence scores decrease on adversarial images compared to their clean counterparts? (Qualitative check — adversarial images should not receive the same high confidence as clean ones.)
+- **Partial extraction honesty**: Did the system return partial extraction with null/low-confidence fields for missing data, rather than fabricating values? (Qualitative check.)
+
+### 9.6 Calendar Hook Detection
+
+**What it measures:** Whether the system detects meeting references in conversation screenshots and emits calendar hook metadata for downstream scheduling agents.
+
+**Why it matters:** Calendar hook detection is the bridge between visual context and actionable agent behavior. When a conversation screenshot says "Let's schedule a meeting for tomorrow at 3pm," the vision agent should not just extract text — it should flag that a calendar event is referenced, so the downstream agent stack can offer to create the event or check for conflicts. This metric tests whether the system can cross the boundary from passive extraction to active agent support.
+
+**How it is computed:** For images annotated with `expected_calendar_hook = true`, we check whether the system's output includes a non-null `calendar_hook` field with at least one event candidate. Hook recall = (detected hooks) / (expected hooks). In the current test set, `img_006` (a conversation screenshot referencing a meeting) is the target image.
+
+---
+
+## 10. Evaluation Results
+
+### 10.1 Proposed vs Baseline
+
+| Metric | Proposed (Structured Pipeline) | Baseline |
+|---|---:|---:|
+| Type classification accuracy | 0.857 | 0.643 |
+| Extraction accuracy (clean) | 0.826 | 0.261 |
+| Extraction accuracy (adversarial) | 0.357 | 0.250 |
+| Calibration ECE (lower is better) | 0.107 | 0.276 |
+| Calibration correlation | 1.000 | 0.000 |
+| Failure flags correct | 3/7 | 0/7 |
+| Linking pairwise F1 | 0.286 | 0.000 |
+| Groups identified | 3 | 0 |
+| Calendar hooks detected | 1/1 | 0/1 |
+
+### 10.2 Result Interpretation
+
+#### Strong wins for the proposed method
+The structured pipeline clearly outperforms the baseline on the challenge’s most important dimensions:
+
+- **Clean-image extraction** is much stronger (`0.826` vs `0.261`)
+- **Adversarial extraction** is better, though still challenging (`0.357` vs `0.250`)
+- **Calibration** is dramatically better (`ECE 0.107` vs `0.276`, correlation `1.000` vs `0.000`)
+- **Agent-specific capabilities** such as failure flags, grouping, and calendar hooks are present only in the structured pipeline
+
+#### Why this matters
+This result shows that the benefit of the architecture is not just raw extraction accuracy. The bigger gain is that the proposed system produces outputs that are much more **trustworthy, interpretable, and usable by downstream agents**.
+
+### 10.3 Confidence Calibration Result
+
+![Confidence Calibration](results/figures/calibration.png)
+
+Interpretation:
+- The **structured pipeline** spreads predictions across multiple confidence buckets, and actual accuracy increases as confidence increases. The curve is comparable to the perfect line (gray).
+- The **baseline** collapses into a nearly single flat-confidence bucket around `0.8`, but actual accuracy is much lower, showing strong overconfidence.
+
+### 10.4 Result File Locations
+
+All evaluation artifacts are generated by `python -m scripts.run_demo` and stored under the `results/` directory:
+
+| Artifact | Path |
+|---|---|
+| Calibration plot | `results/figures/calibration.png` |
+| Comparison table (CSV) | `results/tables/comparison.csv` |
+| Structured pipeline metrics (JSON) | `results/metrics/structured_metrics.json` |
+| Baseline metrics (JSON) | `results/metrics/baseline_metrics.json` |
+| Per-image structured outputs | `data/outputs/structured/img_001.json` ... `img_014.json` |
+| Per-image baseline outputs | `data/outputs/baseline/img_001.json` ... `img_014.json` |
+| Ground truth annotations | `data/annotations/img_001.json` ... `img_014.json` |
+| Synthetic test images | `data/test_images/img_001.png` ... `img_014.png` |
+
+### 10.5 Additional Metric Detail
+
+#### Structured pipeline metric snapshot
+- `type_accuracy = 0.857`
+- `extraction_accuracy_clean = 0.826`
+- `extraction_accuracy_adversarial = 0.357`
+- `calibration_ece = 0.107`
+- `calibration_correlation = 1.000`
+- `linking_precision = 0.400`
+- `linking_recall = 0.222`
+- `hook_recall = 1.000`
+
+#### Baseline metric snapshot
+- `type_accuracy = 0.643`
+- `extraction_accuracy_clean = 0.261`
+- `extraction_accuracy_adversarial = 0.250`
+- `calibration_ece = 0.276`
+- `calibration_correlation = 0.000`
+- `linking_precision = 0.000`
+- `linking_recall = 0.000`
+- `hook_recall = 0.000`
+
+### 10.6 Honest Limitations from the Current Results
+The current system is strong in architecture and calibration, but there are still clear weaknesses:
+- adversarial extraction remains difficult,
+- failure flag coverage is incomplete (`3/7`),
+- linking is present but still weak (`pairwise F1 = 0.286`).
+
+These are not hidden; they directly motivate the next steps below.
 
 ---
 
