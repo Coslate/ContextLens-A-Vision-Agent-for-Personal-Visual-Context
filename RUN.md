@@ -22,3 +22,6 @@ python -m pytest tests/test_generate_images.py -v
 
 # test feat: add cross-image context fuser, SQLite memory store, and query API
 python -m pytest tests/test_linker.py tests/test_memory.py -v
+
+# test feat: add generic unified parser baseline for structured vs baseline comparison
+python -m pytest tests/test_baseline.py -v
