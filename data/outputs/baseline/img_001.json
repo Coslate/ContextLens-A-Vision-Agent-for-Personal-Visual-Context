@@ -1,0 +1,50 @@
+{
+  "image_id": "img_001",
+  "type": "receipt",
+  "type_confidence": 0.8,
+  "extracted_entities": {
+    "merchant": "STARBUCKS",
+    "items": [
+      {
+        "name": "item",
+        "price": 5.5
+      },
+      {
+        "name": "item",
+        "price": 3.25
+      },
+      {
+        "name": "item",
+        "price": 11.5
+      },
+      {
+        "name": "item",
+        "price": 0.92
+      }
+    ],
+    "total": 12.42,
+    "date": "03/15/2024",
+    "currency": "USD"
+  },
+  "field_confidence": {
+    "merchant": 0.8,
+    "total": 0.8,
+    "date": 0.8,
+    "currency": 0.8,
+    "items": 0.8
+  },
+  "summary": "STARBUCKS receipt for $12.42.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 4353.707251082251,
+    "brightness": 0.9683204736440031,
+    "contrast": 0.1602655795812316,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "STARBUCKS\n123 Main Street\nSeattle,\nWA 98101\nLatte\n$5.50\nMuffin\n$3.25\nIced\nTea\n92.75\nSUBTOTAL\n$11.50\nTAX\n$0.92\nTOTAL\n$12.42\n03/15/2024\n10:32 AM\nVISA\n****\n1234",
+  "group_id": null,
+  "calendar_hook": null
+}

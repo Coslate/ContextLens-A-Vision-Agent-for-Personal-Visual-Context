@@ -1,0 +1,128 @@
+{
+  "image_id": "img_012",
+  "type": "whiteboard",
+  "type_confidence": 0.6,
+  "extracted_entities": {
+    "text_blocks": [
+      {
+        "text": "Project",
+        "position": "top-left"
+      },
+      {
+        "text": "Alpha",
+        "position": "top-left"
+      },
+      {
+        "text": "Retro Notes",
+        "position": "top-center"
+      },
+      {
+        "text": "Completed",
+        "position": "top-left"
+      },
+      {
+        "text": "API design",
+        "position": "top-center"
+      },
+      {
+        "text": "phase",
+        "position": "top-center"
+      },
+      {
+        "text": "In progress",
+        "position": "middle-left"
+      },
+      {
+        "text": "testing @Bob",
+        "position": "middle-center"
+      },
+      {
+        "text": "Blocked:",
+        "position": "middle-left"
+      },
+      {
+        "text": "deployment",
+        "position": "middle-left"
+      },
+      {
+        "text": "(infra) @Carol",
+        "position": "middle-center"
+      },
+      {
+        "text": "#ProjectAlpha #Sprint5",
+        "position": "middle-left"
+      },
+      {
+        "text": "Action items",
+        "position": "bottom-left"
+      },
+      {
+        "text": "CI pipeline @Alice",
+        "position": "bottom-left"
+      },
+      {
+        "text": "Update staging config",
+        "position": "bottom-left"
+      },
+      {
+        "text": "Next",
+        "position": "bottom-left"
+      },
+      {
+        "text": "review:",
+        "position": "bottom-left"
+      },
+      {
+        "text": "Wednesday",
+        "position": "bottom-center"
+      },
+      {
+        "text": "Fix",
+        "position": "bottom-left"
+      }
+    ],
+    "inferred_structure": {
+      "bullets": [],
+      "owners": [
+        "Bob",
+        "Carol",
+        "Alice"
+      ],
+      "dates": [
+        "Next\nreview",
+        "Wednesday"
+      ],
+      "tasks": [
+        "API design",
+        "Update staging config",
+        "review:"
+      ],
+      "project_tags": [
+        "ProjectAlpha",
+        "Sprint5"
+      ]
+    }
+  },
+  "field_confidence": {
+    "text_blocks": 0.9,
+    "bullets": 0.0,
+    "owners": 0.8165116552286856,
+    "dates": 0.680426379357238,
+    "tasks": 0.7257881379810539,
+    "project_tags": 0.8165116552286856
+  },
+  "summary": "Whiteboard (ProjectAlpha, Sprint5): 3 tasks.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 4829.906384583159,
+    "brightness": 0.9645814008888012,
+    "contrast": 0.16881956310947802,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "Project\nAlpha\nRetro Notes\nCompleted\nAPI design\nphase\nIn progress\ntesting @Bob\nBlocked:\ndeployment\n(infra) @Carol\n#ProjectAlpha #Sprint5\nAction items\nCI pipeline @Alice\nUpdate staging config\nNext\nreview:\nWednesday\nFix",
+  "group_id": "project_42_backend",
+  "calendar_hook": null
+}

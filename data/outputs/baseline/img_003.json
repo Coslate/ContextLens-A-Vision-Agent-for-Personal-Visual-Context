@@ -1,0 +1,45 @@
+{
+  "image_id": "img_003",
+  "type": "whiteboard",
+  "type_confidence": 0.8,
+  "extracted_entities": {
+    "text_blocks": [
+      {
+        "text": "==",
+        "position": null
+      },
+      {
+        "text": "F",
+        "position": null
+      },
+      {
+        "text": "35",
+        "position": null
+      }
+    ],
+    "inferred_structure": {
+      "bullets": [],
+      "owners": [],
+      "dates": [],
+      "tasks": [],
+      "project_tags": []
+    }
+  },
+  "field_confidence": {
+    "text_blocks": 0.8
+  },
+  "summary": "Whiteboard with 3 text blocks.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 0.8467099567099567,
+    "brightness": 0.9683350734233087,
+    "contrast": 0.0665003422372841,
+    "estimated_quality": 0.24499999999999997,
+    "is_blurry": true,
+    "is_rotated": false
+  },
+  "raw_text": "==\nF\n35",
+  "group_id": null,
+  "calendar_hook": null
+}

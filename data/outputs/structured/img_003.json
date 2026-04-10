@@ -1,0 +1,37 @@
+{
+  "image_id": "img_003",
+  "type": "receipt",
+  "type_confidence": 0.19,
+  "extracted_entities": {
+    "merchant": "==",
+    "items": [],
+    "total": null,
+    "date": null,
+    "currency": null
+  },
+  "field_confidence": {
+    "merchant": 0.03248830361748076,
+    "total": 0.0,
+    "items": 0.0,
+    "date": 0.0,
+    "currency": 0.0
+  },
+  "summary": "== receipt.",
+  "failure_flags": [
+    "blurry_image",
+    "partial_capture",
+    "ocr_uncertain"
+  ],
+  "needs_clarification": true,
+  "quality_signals": {
+    "blur_score": 0.8467099567099567,
+    "brightness": 0.9683350734233087,
+    "contrast": 0.0665003422372841,
+    "estimated_quality": 0.24499999999999997,
+    "is_blurry": true,
+    "is_rotated": false
+  },
+  "raw_text": "==\nF\n35",
+  "group_id": null,
+  "calendar_hook": null
+}

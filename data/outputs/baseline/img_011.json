@@ -1,0 +1,42 @@
+{
+  "image_id": "img_011",
+  "type": "conversation",
+  "type_confidence": 0.8,
+  "extracted_entities": {
+    "participants": [
+      "Sprint",
+      "Planning\nProject",
+      "Alpha\nDesign",
+      "Alice\nWrite",
+      "Bob\nDeploy",
+      "Carol",
+      "Deadline",
+      "Friday\nNext"
+    ],
+    "key_topics": [],
+    "action_items": [
+      "Deploy to staging @Carol",
+      "update documentation",
+      "review PR #42"
+    ],
+    "referenced_events": []
+  },
+  "field_confidence": {
+    "participants": 0.8,
+    "action_items": 0.8
+  },
+  "summary": "Conversation with Sprint, Planning\nProject, Alpha\nDesign.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 5014.439103477168,
+    "brightness": 0.9628449362149553,
+    "contrast": 0.17268619987008255,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "Sprint\n5 Planning\nProject\nAlpha\nDesign\nAPI endpoints @Alice\nWrite unit\ntests @Bob\nDeploy to staging @Carol\nTODO:\nupdate documentation\nTODO:\nreview PR #42\n#ProjectAlpha #Sprint5 #backend\nDeadline:\ndue Friday\nNext\nsync\nMonday 1Oam",
+  "group_id": null,
+  "calendar_hook": null
+}

@@ -1,0 +1,31 @@
+{
+  "image_id": "img_008",
+  "type": "document",
+  "type_confidence": 0.78,
+  "extracted_entities": {
+    "document_kind": "form",
+    "structured_fields": {
+      "Form\nPatient\nName\nJohn Doe\nDate of\nBirth": "01/15/1985",
+      "Address\n123\nMain Street\nInsurance ID": "INS-98765",
+      "Emergency Contact": "Jane Doe"
+    }
+  },
+  "field_confidence": {
+    "document_kind": 0.9,
+    "structured_fields": 0.8532653094969715
+  },
+  "summary": "Form with 3 extracted fields.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 5633.563673469388,
+    "brightness": 0.9569435240762972,
+    "contrast": 0.1857827915631118,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "Patient Registration\nForm\nPatient\nName\nJohn Doe\nDate of\nBirth:\n01/15/1985\nPhone\n555-0123\nAddress\n123\nMain Street\nInsurance ID:\nINS-98765\nEmergency Contact:\nJane Doe",
+  "group_id": null,
+  "calendar_hook": null
+}

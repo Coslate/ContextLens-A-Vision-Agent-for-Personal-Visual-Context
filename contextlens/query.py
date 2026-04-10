@@ -122,7 +122,40 @@ def _detect_participant(query: str) -> str | None:
 # ---------------------------------------------------------------------------
 
 
-def query(store: MemoryStore, query_text: str) -> list[dict]:
+class QueryResult:
+    """Result of a query against the memory store."""
+
+    SUPPORTED_PATTERNS = (
+        "type (receipts, conversations, documents, whiteboards), "
+        "project, meeting/calendar, time range (last week, past 3 days), "
+        "clarification, group, participant"
+    )
+
+    def __init__(self, results: list[dict], matched: bool):
+        self.results = results
+        self.matched = matched
+
+    def __len__(self) -> int:
+        return len(self.results)
+
+    def __iter__(self):
+        return iter(self.results)
+
+    def __getitem__(self, index):
+        return self.results[index]
+
+    def __eq__(self, other):
+        if isinstance(other, list):
+            return self.results == other
+        if isinstance(other, QueryResult):
+            return self.results == other.results
+        return NotImplemented
+
+    def __bool__(self) -> bool:
+        return bool(self.results)
+
+
+def query(store: MemoryStore, query_text: str) -> QueryResult:
     """Execute a natural-language-like query against the memory store.
 
     Supported query patterns:
@@ -137,16 +170,16 @@ def query(store: MemoryStore, query_text: str) -> list[dict]:
         query_text: Natural language query string.
 
     Returns:
-        List of image records matching the query.
+        QueryResult with results and a flag indicating whether a pattern matched.
     """
     # Check for group query first (most specific)
     group_id = _detect_group(query_text)
     if group_id:
-        return store.get_images_by_group(group_id)
+        return QueryResult(store.get_images_by_group(group_id), matched=True)
 
     # Check for clarification query
     if _detect_clarification(query_text):
-        return store.get_needs_clarification()
+        return QueryResult(store.get_needs_clarification(), matched=True)
 
     # Check for meeting/calendar query
     if _detect_meeting_mention(query_text):
@@ -155,7 +188,7 @@ def query(store: MemoryStore, query_text: str) -> list[dict]:
         img_type = _detect_type(query_text)
         if img_type:
             results = [r for r in results if r["type"] == img_type]
-        return results
+        return QueryResult(results, matched=True)
 
     # Check for project query
     project = _detect_project(query_text)
@@ -165,7 +198,7 @@ def query(store: MemoryStore, query_text: str) -> list[dict]:
         img_type = _detect_type(query_text)
         if img_type:
             results = [r for r in results if r["type"] == img_type]
-        return results
+        return QueryResult(results, matched=True)
 
     # Type + time range query
     img_type = _detect_type(query_text)
@@ -176,18 +209,22 @@ def query(store: MemoryStore, query_text: str) -> list[dict]:
         by_type = store.get_images_by_type(img_type)
         since = store.get_images_since(time_days)
         since_ids = {r["image_id"] for r in since}
-        return [r for r in by_type if r["image_id"] in since_ids]
+        return QueryResult(
+            [r for r in by_type if r["image_id"] in since_ids], matched=True,
+        )
 
     if img_type:
-        return store.get_images_by_type(img_type)
+        return QueryResult(store.get_images_by_type(img_type), matched=True)
 
     if time_days:
-        return store.get_images_since(time_days)
+        return QueryResult(store.get_images_since(time_days), matched=True)
 
     # Check for participant query
     participant = _detect_participant(query_text)
     if participant:
-        return store.search_entities("participant", participant)
+        return QueryResult(
+            store.search_entities("participant", participant), matched=True,
+        )
 
-    # Fallback: return all
-    return store.get_all_images()
+    # Fallback: no pattern matched — return all
+    return QueryResult(store.get_all_images(), matched=False)

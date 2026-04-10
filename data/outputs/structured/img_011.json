@@ -1,0 +1,133 @@
+{
+  "image_id": "img_011",
+  "type": "whiteboard",
+  "type_confidence": 0.67,
+  "extracted_entities": {
+    "text_blocks": [
+      {
+        "text": "Sprint",
+        "position": "top-left"
+      },
+      {
+        "text": "5 Planning",
+        "position": "top-left"
+      },
+      {
+        "text": "Project",
+        "position": "top-center"
+      },
+      {
+        "text": "Alpha",
+        "position": "top-center"
+      },
+      {
+        "text": "Design",
+        "position": "top-left"
+      },
+      {
+        "text": "API endpoints @Alice",
+        "position": "top-left"
+      },
+      {
+        "text": "Write unit",
+        "position": "middle-left"
+      },
+      {
+        "text": "tests @Bob",
+        "position": "middle-center"
+      },
+      {
+        "text": "Deploy to staging @Carol",
+        "position": "middle-left"
+      },
+      {
+        "text": "TODO:",
+        "position": "middle-left"
+      },
+      {
+        "text": "update documentation",
+        "position": "middle-left"
+      },
+      {
+        "text": "TODO:",
+        "position": "middle-left"
+      },
+      {
+        "text": "review PR #42",
+        "position": "middle-left"
+      },
+      {
+        "text": "#ProjectAlpha #Sprint5 #backend",
+        "position": "bottom-left"
+      },
+      {
+        "text": "Deadline:",
+        "position": "bottom-left"
+      },
+      {
+        "text": "due Friday",
+        "position": "bottom-left"
+      },
+      {
+        "text": "Next",
+        "position": "bottom-left"
+      },
+      {
+        "text": "sync",
+        "position": "bottom-left"
+      },
+      {
+        "text": "Monday 1Oam",
+        "position": "bottom-left"
+      }
+    ],
+    "inferred_structure": {
+      "bullets": [],
+      "owners": [
+        "Alice",
+        "Bob",
+        "Carol"
+      ],
+      "dates": [
+        "due Friday",
+        "Next\nsync",
+        "Monday"
+      ],
+      "tasks": [
+        "Design",
+        "Write unit",
+        "Deploy to staging @Carol",
+        "update documentation",
+        "review PR #42"
+      ],
+      "project_tags": [
+        "42",
+        "ProjectAlpha",
+        "Sprint5",
+        "backend"
+      ]
+    }
+  },
+  "field_confidence": {
+    "text_blocks": 0.9,
+    "bullets": 0.0,
+    "owners": 0.8421124307638671,
+    "dates": 0.7017603589698893,
+    "tasks": 0.7485443829012153,
+    "project_tags": 0.8421124307638671
+  },
+  "summary": "Whiteboard (42, ProjectAlpha): 5 tasks.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 5014.439103477168,
+    "brightness": 0.9628449362149553,
+    "contrast": 0.17268619987008255,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "Sprint\n5 Planning\nProject\nAlpha\nDesign\nAPI endpoints @Alice\nWrite unit\ntests @Bob\nDeploy to staging @Carol\nTODO:\nupdate documentation\nTODO:\nreview PR #42\n#ProjectAlpha #Sprint5 #backend\nDeadline:\ndue Friday\nNext\nsync\nMonday 1Oam",
+  "group_id": "project_42_backend",
+  "calendar_hook": null
+}

@@ -1,0 +1,41 @@
+{
+  "image_id": "img_009",
+  "type": "receipt",
+  "type_confidence": 0.8,
+  "extracted_entities": {
+    "merchant": "INVOICE",
+    "items": [
+      {
+        "name": "item",
+        "price": 25.0
+      },
+      {
+        "name": "item",
+        "price": 1.0
+      }
+    ],
+    "total": 40.0,
+    "date": null,
+    "currency": "USD"
+  },
+  "field_confidence": {
+    "merchant": 0.8,
+    "total": 0.8,
+    "currency": 0.8,
+    "items": 0.8
+  },
+  "summary": "INVOICE receipt for $40.00.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 4718.192608294931,
+    "brightness": 0.9644450890033432,
+    "contrast": 0.16914092996802327,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "INVOICE\nInvoice Number:\nINV-2024-001\nDate:\nMarch\n15 ,\n2024\nBill\nTo:\nAcme Corp\nShip To:\n456 Oak Avenue\nDescription\nPrice\nWidget\n10\n$25.00\nWidget\n$40.00\nAmount\nDue: $1,250 _\n00\nPayment\nDue\nApril\n15 ,\n2024\nQty",
+  "group_id": null,
+  "calendar_hook": null
+}

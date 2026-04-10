@@ -1,0 +1,40 @@
+{
+  "image_id": "img_012",
+  "type": "conversation",
+  "type_confidence": 0.8,
+  "extracted_entities": {
+    "participants": [
+      "Project\nAlpha",
+      "Retro Notes",
+      "Completed",
+      "Bob\nBlocked",
+      "Carol",
+      "Alice\nUpdate",
+      "Next",
+      "Wednesday\nFix"
+    ],
+    "key_topics": [],
+    "action_items": [
+      "Update staging config"
+    ],
+    "referenced_events": []
+  },
+  "field_confidence": {
+    "participants": 0.8,
+    "action_items": 0.8
+  },
+  "summary": "Conversation with Project\nAlpha, Retro Notes, Completed.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 4829.906384583159,
+    "brightness": 0.9645814008888012,
+    "contrast": 0.16881956310947802,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "Project\nAlpha\nRetro Notes\nCompleted\nAPI design\nphase\nIn progress\ntesting @Bob\nBlocked:\ndeployment\n(infra) @Carol\n#ProjectAlpha #Sprint5\nAction items\nCI pipeline @Alice\nUpdate staging config\nNext\nreview:\nWednesday\nFix",
+  "group_id": null,
+  "calendar_hook": null
+}

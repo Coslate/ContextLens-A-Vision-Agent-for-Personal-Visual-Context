@@ -1,0 +1,37 @@
+{
+  "image_id": "img_004",
+  "type": "receipt",
+  "type_confidence": 0.8,
+  "extracted_entities": {
+    "merchant": "STARBUCKS",
+    "items": [
+      {
+        "name": "item",
+        "price": 3.25
+      }
+    ],
+    "total": 5.5,
+    "date": null,
+    "currency": "USD"
+  },
+  "field_confidence": {
+    "merchant": 0.8,
+    "total": 0.8,
+    "currency": 0.8,
+    "items": 0.8
+  },
+  "summary": "STARBUCKS receipt for $5.50.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 4202.511889763779,
+    "brightness": 0.9688395476300756,
+    "contrast": 0.15930907669129626,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "STARBUCKS\n123 Main Street\nSeattle,\nWA 98101\nLatte\n$5.50\nMuffin\n$3.25\nIced\nTea\n92.75",
+  "group_id": null,
+  "calendar_hook": null
+}

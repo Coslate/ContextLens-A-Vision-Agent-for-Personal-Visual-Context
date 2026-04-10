@@ -1,0 +1,24 @@
+{
+  "image_id": "img_014",
+  "type": "unknown",
+  "type_confidence": 0.0,
+  "extracted_entities": {},
+  "field_confidence": {},
+  "summary": "Unclassified image.",
+  "failure_flags": [
+    "blurry_image",
+    "ocr_uncertain"
+  ],
+  "needs_clarification": true,
+  "quality_signals": {
+    "blur_score": 0.9356514453288647,
+    "brightness": 0.9628646344168166,
+    "contrast": 0.06875095537824853,
+    "estimated_quality": 0.24499999999999997,
+    "is_blurry": true,
+    "is_rotated": false
+  },
+  "raw_text": "",
+  "group_id": null,
+  "calendar_hook": null
+}

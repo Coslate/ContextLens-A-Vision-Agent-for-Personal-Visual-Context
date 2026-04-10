@@ -1,0 +1,94 @@
+{
+  "image_id": "img_013",
+  "type": "whiteboard",
+  "type_confidence": 0.38,
+  "extracted_entities": {
+    "text_blocks": [
+      {
+        "text": "brainstorm",
+        "position": "top-left"
+      },
+      {
+        "text": "session",
+        "position": "top-left"
+      },
+      {
+        "text": "idea",
+        "position": "top-left"
+      },
+      {
+        "text": "new login",
+        "position": "top-left"
+      },
+      {
+        "text": "flow",
+        "position": "top-center"
+      },
+      {
+        "text": "idea",
+        "position": "top-left"
+      },
+      {
+        "text": "redesign homepage",
+        "position": "top-left"
+      },
+      {
+        "text": "@Dave",
+        "position": "middle-left"
+      },
+      {
+        "text": "to prototype",
+        "position": "middle-left"
+      },
+      {
+        "text": "maybe #UXRedesign",
+        "position": "middle-left"
+      },
+      {
+        "text": "check",
+        "position": "middle-left"
+      },
+      {
+        "text": "W/ stakeholders",
+        "position": "middle-left"
+      },
+      {
+        "text": "tmnw",
+        "position": "middle-center"
+      }
+    ],
+    "inferred_structure": {
+      "bullets": [],
+      "owners": [
+        "Dave"
+      ],
+      "dates": [],
+      "tasks": [],
+      "project_tags": [
+        "UXRedesign"
+      ]
+    }
+  },
+  "field_confidence": {
+    "text_blocks": 0.7200000000000001,
+    "bullets": 0.0,
+    "owners": 0.6612397865912273,
+    "dates": 0.0,
+    "tasks": 0.0,
+    "project_tags": 0.6612397865912273
+  },
+  "summary": "Whiteboard (UXRedesign): 0 tasks.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 6724.51775493814,
+    "brightness": 0.8962492338111715,
+    "contrast": 0.14346496804086104,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "brainstorm\nsession\nidea\nnew login\nflow\nidea\nredesign homepage\n@Dave\nto prototype\nmaybe #UXRedesign\ncheck\nW/ stakeholders\ntmnw",
+  "group_id": null,
+  "calendar_hook": null
+}

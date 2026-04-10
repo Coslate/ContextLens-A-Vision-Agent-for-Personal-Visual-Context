@@ -1,0 +1,42 @@
+{
+  "image_id": "img_004",
+  "type": "receipt",
+  "type_confidence": 0.39,
+  "extracted_entities": {
+    "merchant": "STARBUCKS",
+    "items": [
+      {
+        "name": "Latte",
+        "price": 5.5
+      },
+      {
+        "name": "Muffin",
+        "price": 3.25
+      }
+    ],
+    "total": 3.25,
+    "date": null,
+    "currency": "USD"
+  },
+  "field_confidence": {
+    "merchant": 0.9996068091107595,
+    "total": 0.5999944227572731,
+    "items": 0.999995219017688,
+    "date": 0.0,
+    "currency": 0.7
+  },
+  "summary": "STARBUCKS receipt for $3.25 (Latte, Muffin).",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 4202.511889763779,
+    "brightness": 0.9688395476300756,
+    "contrast": 0.15930907669129626,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "STARBUCKS\n123 Main Street\nSeattle,\nWA 98101\nLatte\n$5.50\nMuffin\n$3.25\nIced\nTea\n92.75",
+  "group_id": "receipts_starbucks",
+  "calendar_hook": null
+}

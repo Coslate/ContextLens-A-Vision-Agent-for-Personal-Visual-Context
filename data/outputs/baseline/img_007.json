@@ -1,0 +1,30 @@
+{
+  "image_id": "img_007",
+  "type": "document",
+  "type_confidence": 0.8,
+  "extracted_entities": {
+    "document_kind": "generic",
+    "structured_fields": {
+      "Bob": "Pretty well_",
+      "finished\nthe\nAPI endpoints\nAlice": "Great"
+    }
+  },
+  "field_confidence": {
+    "document_kind": 0.8,
+    "structured_fields": 0.8
+  },
+  "summary": "Document with 2 extracted fields.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 10871.221076312962,
+    "brightness": 0.9190855105678635,
+    "contrast": 0.24771411189375184,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "Alice\nHey ,\nhow\n5 the project going?\nBob: Pretty well_\nfinished\nthe\nAPI endpoints\nAlice:\nGreat\nCan\nvou send\nme the documentation?",
+  "group_id": null,
+  "calendar_hook": null
+}

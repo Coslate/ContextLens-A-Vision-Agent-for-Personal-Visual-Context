@@ -1,0 +1,10 @@
+metric,structured_pipeline,baseline
+Type classification accuracy,0.857,0.643
+Extraction accuracy (clean),0.826,0.261
+Extraction accuracy (adversarial),0.357,0.250
+Calibration ECE (lower is better),0.107,0.276
+Calibration correlation,1.000,0.000
+Failure flags correct,3/7,0/7
+Linking pairwise F1,0.286,0.000
+Groups identified,3,0
+Calendar hooks detected,1/1,0/1

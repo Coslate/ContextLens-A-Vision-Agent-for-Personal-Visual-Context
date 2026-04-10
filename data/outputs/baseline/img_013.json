@@ -1,0 +1,85 @@
+{
+  "image_id": "img_013",
+  "type": "whiteboard",
+  "type_confidence": 0.8,
+  "extracted_entities": {
+    "text_blocks": [
+      {
+        "text": "brainstorm",
+        "position": null
+      },
+      {
+        "text": "session",
+        "position": null
+      },
+      {
+        "text": "idea",
+        "position": null
+      },
+      {
+        "text": "new login",
+        "position": null
+      },
+      {
+        "text": "flow",
+        "position": null
+      },
+      {
+        "text": "idea",
+        "position": null
+      },
+      {
+        "text": "redesign homepage",
+        "position": null
+      },
+      {
+        "text": "@Dave",
+        "position": null
+      },
+      {
+        "text": "to prototype",
+        "position": null
+      },
+      {
+        "text": "maybe #UXRedesign",
+        "position": null
+      },
+      {
+        "text": "check",
+        "position": null
+      },
+      {
+        "text": "W/ stakeholders",
+        "position": null
+      },
+      {
+        "text": "tmnw",
+        "position": null
+      }
+    ],
+    "inferred_structure": {
+      "bullets": [],
+      "owners": [],
+      "dates": [],
+      "tasks": [],
+      "project_tags": []
+    }
+  },
+  "field_confidence": {
+    "text_blocks": 0.8
+  },
+  "summary": "Whiteboard with 13 text blocks.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 6724.51775493814,
+    "brightness": 0.8962492338111715,
+    "contrast": 0.14346496804086104,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "brainstorm\nsession\nidea\nnew login\nflow\nidea\nredesign homepage\n@Dave\nto prototype\nmaybe #UXRedesign\ncheck\nW/ stakeholders\ntmnw",
+  "group_id": null,
+  "calendar_hook": null
+}

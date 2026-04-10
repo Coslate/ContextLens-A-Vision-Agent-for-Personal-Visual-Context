@@ -1,0 +1,64 @@
+{
+  "image_id": "img_007",
+  "type": "conversation",
+  "type_confidence": 0.67,
+  "extracted_entities": {
+    "participants": [
+      "Bob",
+      "Alice"
+    ],
+    "key_topics": [
+      "send"
+    ],
+    "action_items": [],
+    "referenced_events": []
+  },
+  "field_confidence": {
+    "participants": 0.9195708568986554,
+    "key_topics": 0.781635228363857,
+    "action_items": 0.0,
+    "referenced_events": 0.0
+  },
+  "summary": "Conversation between Bob and Alice about send.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 10871.221076312962,
+    "brightness": 0.9190855105678635,
+    "contrast": 0.24771411189375184,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "Alice\nHey ,\nhow\n5 the project going?\nBob: Pretty well_\nfinished\nthe\nAPI endpoints\nAlice:\nGreat\nCan\nvou send\nme the documentation?",
+  "group_id": "conversation_group",
+  "calendar_hook": {
+    "mentioned": true,
+    "event_candidates": [
+      {
+        "title": "meeting",
+        "time_mention": "tomorrow",
+        "participants": [
+          "Bob",
+          "Alice"
+        ]
+      },
+      {
+        "title": "conference",
+        "time_mention": null,
+        "participants": [
+          "Bob",
+          "Alice"
+        ]
+      },
+      {
+        "title": "sync",
+        "time_mention": null,
+        "participants": [
+          "Bob",
+          "Alice"
+        ]
+      }
+    ]
+  }
+}

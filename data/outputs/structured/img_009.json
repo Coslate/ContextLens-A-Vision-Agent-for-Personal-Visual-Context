@@ -1,0 +1,33 @@
+{
+  "image_id": "img_009",
+  "type": "document",
+  "type_confidence": 0.66,
+  "extracted_entities": {
+    "document_kind": "invoice",
+    "structured_fields": {
+      "INVOICE\nInvoice Number": "INV-2024-001",
+      "Date": "March",
+      "Bill\nTo": "Acme Corp",
+      "Ship To": "456 Oak Avenue",
+      "Amount\nDue": "$1,250 _"
+    }
+  },
+  "field_confidence": {
+    "document_kind": 0.95,
+    "structured_fields": 0.850466425533673
+  },
+  "summary": "Invoice with 5 extracted fields.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 4718.192608294931,
+    "brightness": 0.9644450890033432,
+    "contrast": 0.16914092996802327,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "INVOICE\nInvoice Number:\nINV-2024-001\nDate:\nMarch\n15 ,\n2024\nBill\nTo:\nAcme Corp\nShip To:\n456 Oak Avenue\nDescription\nPrice\nWidget\n10\n$25.00\nWidget\n$40.00\nAmount\nDue: $1,250 _\n00\nPayment\nDue\nApril\n15 ,\n2024\nQty",
+  "group_id": null,
+  "calendar_hook": null
+}

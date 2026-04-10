@@ -1,0 +1,96 @@
+{
+  "image_id": "img_006",
+  "type": "conversation",
+  "type_confidence": 0.6,
+  "extracted_entities": {
+    "participants": [
+      "Bob",
+      "Alice"
+    ],
+    "key_topics": [
+      "meeting",
+      "conference",
+      "sync",
+      "schedule",
+      "book",
+      "send"
+    ],
+    "action_items": [
+      "I'1l book the"
+    ],
+    "referenced_events": [
+      {
+        "title": "meeting",
+        "time_mention": "tomorrow",
+        "participants": [
+          "Bob",
+          "Alice"
+        ]
+      },
+      {
+        "title": "conference",
+        "time_mention": null,
+        "participants": [
+          "Bob",
+          "Alice"
+        ]
+      },
+      {
+        "title": "sync",
+        "time_mention": null,
+        "participants": [
+          "Bob",
+          "Alice"
+        ]
+      }
+    ]
+  },
+  "field_confidence": {
+    "participants": 0.9426731710764706,
+    "key_topics": 0.801272195415,
+    "action_items": 0.7541385368611766,
+    "referenced_events": 0.707004878307353
+  },
+  "summary": "Conversation between Bob and Alice about meeting, conference, sync.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 7811.761246753247,
+    "brightness": 0.9416892284186402,
+    "contrast": 0.21312965848791252,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "Alice\nLet\nschedule\na meeting\nfor\ntomorrow\nBob:\nSounds good,\n3pm\nworks\nfor\nme\nAlice:\nI'1l book the\nconference\nroom\nBob:\nShould\nwe invite Carol\nto\nthe sync?\nAlice:\nYes ,\nsend\nher\nthe invite please",
+  "group_id": "conversation_group",
+  "calendar_hook": {
+    "mentioned": true,
+    "event_candidates": [
+      {
+        "title": "meeting",
+        "time_mention": "tomorrow",
+        "participants": [
+          "Bob",
+          "Alice"
+        ]
+      },
+      {
+        "title": "conference",
+        "time_mention": null,
+        "participants": [
+          "Bob",
+          "Alice"
+        ]
+      },
+      {
+        "title": "sync",
+        "time_mention": null,
+        "participants": [
+          "Bob",
+          "Alice"
+        ]
+      }
+    ]
+  }
+}

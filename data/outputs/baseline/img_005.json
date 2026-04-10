@@ -1,0 +1,39 @@
+{
+  "image_id": "img_005",
+  "type": "conversation",
+  "type_confidence": 0.8,
+  "extracted_entities": {
+    "participants": [
+      "Alice\nHey",
+      "Bob",
+      "Pretty",
+      "Alice",
+      "Great\nCan",
+      "Sure",
+      "Thanks"
+    ],
+    "key_topics": [],
+    "action_items": [
+      "Can you  send"
+    ],
+    "referenced_events": []
+  },
+  "field_confidence": {
+    "participants": 0.8,
+    "action_items": 0.8
+  },
+  "summary": "Conversation with Alice\nHey, Bob, Pretty.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 8809.78258890171,
+    "brightness": 0.9341085137085137,
+    "contrast": 0.2257278594517123,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "Alice\nHey ,\nhow\ns the\nproject going?\nBob: Pretty well_\nfinished\nthe\nAPI endpoints\nAlice:\nGreat\nCan you  send\nme the\ndocumentation\nBob:\nSure\nprepare it\nand\nshare by\nEOD\nAlice:\nThanks ,\nalso\ncheck\nthe test\nresults\n'11",
+  "group_id": null,
+  "calendar_hook": null
+}

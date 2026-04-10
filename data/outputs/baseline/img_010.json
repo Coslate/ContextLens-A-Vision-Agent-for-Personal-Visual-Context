@@ -1,0 +1,33 @@
+{
+  "image_id": "img_010",
+  "type": "document",
+  "type_confidence": 0.8,
+  "extracted_entities": {
+    "document_kind": "generic",
+    "structured_fields": {
+      "Medication": "Amoxicillin 500mg",
+      "Dosage": "tablet twice daily",
+      "Prescription": "Rx-45678",
+      "Instrucciones\nTomar\ncon\nagua\nAdvertencia": "No",
+      "conducir\nMedico": "Dr."
+    }
+  },
+  "field_confidence": {
+    "document_kind": 0.8,
+    "structured_fields": 0.8
+  },
+  "summary": "Document with 5 extracted fields.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 5851.857578231293,
+    "brightness": 0.9560387888488728,
+    "contrast": 0.18676126726182635,
+    "estimated_quality": 0.7,
+    "is_blurry": false,
+    "is_rotated": false
+  },
+  "raw_text": "Medication:\nAmoxicillin 500mg\nDosage:\ntablet twice daily\nPrescription:\nRx-45678\nPharmacy\nCVS Health\nInstrucciones\nTomar\ncon\nagua\nAdvertencia:\nNo\nconducir\nMedico:\nDr.\nGarcia",
+  "group_id": null,
+  "calendar_hook": null
+}

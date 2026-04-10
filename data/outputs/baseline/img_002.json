@@ -1,0 +1,31 @@
+{
+  "image_id": "img_002",
+  "type": "receipt",
+  "type_confidence": 0.8,
+  "extracted_entities": {
+    "merchant": "VEZI",
+    "items": [],
+    "total": 1.0,
+    "date": null,
+    "currency": "USD"
+  },
+  "field_confidence": {
+    "merchant": 0.8,
+    "total": 0.8,
+    "currency": 0.8
+  },
+  "summary": "VEZI receipt for $1.00.",
+  "failure_flags": [],
+  "needs_clarification": false,
+  "quality_signals": {
+    "blur_score": 4353.707251082251,
+    "brightness": 0.9683204736440031,
+    "contrast": 0.1602655795812316,
+    "estimated_quality": 0.5599999999999999,
+    "is_blurry": false,
+    "is_rotated": true
+  },
+  "raw_text": "VEZI\n*xxx\nVSIA\nWV ZE:01\nvzoz/ SI/e0\nZv ' ZIS\n7V101\n26 ' 0$\nXVL\n05'IIS\n7Vloans\nSL'Z$\neaL pajI\nSz ' E$\nuTJInw\n0s ' S$\n01+27\nIo186\nVM\na12e85\nJaa415 uTew EZI\nsxjnauVS",
+  "group_id": null,
+  "calendar_hook": null
+}
