@@ -29,7 +29,7 @@
       "Monday"
     ]
   },
-  "expected_group": "project_alpha",
+  "expected_group": null,
   "expected_calendar_hook": null,
   "expected_calendar_events": [],
   "expected_needs_clarification": true,

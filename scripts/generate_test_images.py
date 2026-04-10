@@ -521,6 +521,7 @@ def _gen_whiteboard_blurry() -> tuple[Image.Image, dict]:
     ann["expected_needs_clarification"] = True
     ann["expected_failure_flags"] = ["blurry_image"]
     ann["notes"] = "Blurry whiteboard; very low confidence, minimal extraction"
+    ann["expected_group"] = None
     return img, ann
 
 
